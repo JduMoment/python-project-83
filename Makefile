@@ -16,5 +16,6 @@ test-coverage: #check % tests
 	poetry run pytest --cov=gendiff --cov-report xml tests/
 dev: #project start
 	poetry run flask --app page_analyzer:app run
-start: #production start
-	poetry run gunicorn -w 5 -b 0.0.0.0:8000 page_analyzer:app
+PORT ?= 8000
+start:
+	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
