@@ -10,12 +10,8 @@ package-reinstall: #reinstall pack
 	python3 -m pip install --user dist/*.whl --force-reinstall
 lint: #lint check
 	poetry run flake8 page_analyzer
-check: #testing
-	poetry run pytest
-test-coverage: #check % tests
-	poetry run pytest --cov=gendiff --cov-report xml tests/
 dev: #project start
-	poetry run flask --app page_analyzer:app run
+	poetry run flask --app page_analyzer:app --debug run
 PORT ?= 8000
 start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
