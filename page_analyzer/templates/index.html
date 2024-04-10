@@ -21,16 +21,16 @@
         </nav>
     </header>
     <main>
-        <div class="container overflow-hidden" style="margin-top: 2%;">
-            <div class="row bg-light rounded-3 border border-primary" style="padding: 10% 10% 10% 10%">
+        <div class="container ps-xl-5 pe-xl-5">
+            <div class="bg-light rounded-3 border border-primary mt-4 pt-5 pb-5 ms-lg-5 me-lg-5">
                 <h1 class="text-center">Анализатор страниц</h1>
                 <p class="text-center">Бесплатно проверяйте сайты на SEO-пригодность</p>
-                <form action="" method="post" class="d-flex justify-content-center row">
-                    <div class="col-auto" style="padding-top: 1%">
-                        <label for="inputUrl" class="visually-hidden">Password</label>
-                        <input type="url" class="form-control" id="inputUrl" placeholder="https://www.example.com">
+                <form action="/urls" method="post" class="d-flex justify-content-center row pt-5 pb-3">
+                    <div class="col-auto pt-2">
+                        <label for="inputUrl" class="visually-hidden">url</label>
+                        <input type="url" name="url" class="form-control" id="inputUrl" placeholder="https://www.example.com">
                     </div>
-                    <div class="col-auto" style="padding-top: 1%">
+                    <div class="col-auto pt-2">
                         <button type="submit" class="btn btn-primary mb-2">Проверить</button>
                     </div>
                 </form>

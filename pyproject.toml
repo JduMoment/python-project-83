@@ -10,6 +10,9 @@ Flask = "^3.0.2"
 gunicorn = "^21.2.0"
 flake8 = "^7.0.0"
 pytest = "^8.1.1"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.1"
+validators = "^0.28.0"
 
 [tool.poetry.dev-dependencies]
 
