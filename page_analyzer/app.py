@@ -52,17 +52,32 @@ def show_url(id):
         cursor.execute("""
         SELECT name, created_at FROM urls
         WHERE id=%s; """, (id,))
-        site = cursor.fetchall()
-        name, created_at = site[0]
+        url = cursor.fetchall()
+        name_url, created_at_url = url[0]
+        cursor.execute("""
+        SELECT id, created_at FROM url_checks
+        WHERE url_id=%s; """, (id,))
+        url_check = cursor.fetchall()
+        id_check, created_at_check = url_check[0]
         return render_template(
             'urls/show_url.html',
-            id=id,
-            url=name,
-            created_at=created_at
+            id_url=id,
+            name_url=name_url,
+            created_at_url=created_at_url,
+            id_check=id_check,
+            created_at_check=created_at_check,
         )
 
-
-
+@app.get('urls/<id>/checks')
+def check_url(id):
+    conn = psycopg2.connect(DATABASE_URL)
+    with conn.cursor() as cursor:
+        cursor.execute("""
+        INSERT INTO urls (url_id,created_at)
+        VALUES (%s, %s);
+        """, (id, datetime.today()))
+        conn.commit()
+    return redirect(url_for('show_url'), code=200)
 
 
 
