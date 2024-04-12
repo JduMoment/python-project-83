@@ -21,6 +21,13 @@
         </nav>
     </header>
     <main>
+        <div>
+            {% with message = get_flashed_messages() %}
+                {% if message %}
+                        {{ message[0] }}
+                {% endif %}
+            {% endwith %}
+        </div>
         <div class="container ps-xl-5 pe-xl-5">
             <div class="bg-light rounded-3 border border-primary mt-4 pt-5 pb-5 ms-lg-5 me-lg-5">
                 <h1 class="text-center">Анализатор страниц</h1>

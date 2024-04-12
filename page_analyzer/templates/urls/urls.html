@@ -21,6 +21,13 @@
         </nav>
     </header>
     <main>
+        <div>
+            {% with message = get_flashed_messages() %}
+                {% if message %}
+                        {{ message[0] }}
+                {% endif %}
+            {% endwith %}
+        </div>
         <table class="table table-hover table-primary">
             <thead>
                 <tr>
@@ -35,7 +42,7 @@
                 <tr>
                     <td>{{ url[0] }}</td>
                     <td><a href="{{ url_for('show_url', id=url[0]) }}">{{ url[1] }}</a></td>
-                    <td></td>
+                    <td>{{ url[2] }}</td>
                     <td></td>
                 </tr>
                 {% endfor %}
