@@ -12,9 +12,11 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+
 @app.get('/')
 def index():
     return render_template('index.html')
+
 
 @app.post('/urls')
 def add_url():
@@ -33,13 +35,15 @@ def add_url():
                     VALUES (%s, %s);
                     """, (url, date.today()))
                 conn.commit()
-                flash('Страница успешно добавлена', 'info')
+                flash('Страница успешно добавлена', 'success')
                 return redirect(url_for('show_all_urls'), code=200)
             else:
-                flash('Страница уже добавлена', 'error')
+                flash('Страница уже добавлена', 'warning')
                 return redirect(url_for('show_all_urls'), code=200)
     flash('Некорректный URL', 'error')
     return redirect(url_for('index'))
+
+
 @app.get('/urls')
 def show_all_urls():
     conn = psycopg2.connect(DATABASE_URL)
@@ -51,7 +55,7 @@ def show_all_urls():
         ORDER BY urls.id DESC""")
         all_urls = cursor.fetchall()
         return render_template('urls/urls.html',
-                                urls=all_urls)
+                               urls=all_urls)
 
 
 @app.get('/urls/<id>')
@@ -90,8 +94,6 @@ def check_url(id):
         """, (id, date.today()))
         conn.commit()
     return redirect(url_for('show_url', id=id), code=200)
-
-
 
 
 if __name__ == '__main__':
