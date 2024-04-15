@@ -38,14 +38,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for check in url_check %}
                     <tr>
-                        <td>{{ id_check }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{{ created_at_check }}</td>
+                        <td>{{ check[0] }}</td>
+                        <td>{{ check[1] }}</td>
+                        <td>{{ check[2] }}</td>
+                        <td>{{ check[3] }}</td>
+                        <td>{{ check[4] }}</td>
+                        <td>{{ check[5] }}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
