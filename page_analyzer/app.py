@@ -1,18 +1,19 @@
 from flask import Flask, render_template, request, url_for, redirect, flash
 from dotenv import load_dotenv
 from validators import url as is_correct
-import os
-import psycopg2
 from urllib.parse import urlparse
 from datetime import date
-import requests
 from bs4 import BeautifulSoup
+import os
+import psycopg2
+import requests
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
 
 @app.get('/')
 def index():
@@ -50,7 +51,8 @@ def show_all_urls():
     conn = psycopg2.connect(DATABASE_URL)
     with conn.cursor() as cursor:
         cursor.execute("""
-        SELECT DISTINCT urls.id, urls.name as ulr, url_checks.created_at as last_check
+        SELECT DISTINCT urls.id, urls.name as ulr,
+        url_checks.created_at as last_check
         FROM urls
         LEFT JOIN url_checks ON urls.id = url_checks.url_id
         ORDER BY url_checks.created_at DESC""")
@@ -69,7 +71,8 @@ def show_url(id):
         url = cursor.fetchall()
         name_url, created_at_url = url[0]
         cursor.execute("""
-        SELECT id, status_code, h1, title, description, created_at FROM url_checks
+        SELECT id, status_code, h1, title, description, created_at
+        FROM url_checks
         WHERE url_id=%s; """, (id,))
         url_check = cursor.fetchall()
         return render_template(
@@ -94,7 +97,8 @@ def check_url(id):
         soup = BeautifulSoup(response.text)
         content = str(soup.find('meta', {'name': 'description'})['content'])
         cursor.execute("""
-        INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
+        INSERT INTO url_checks
+        (url_id, status_code, h1, title, description, created_at)
         VALUES (%s, %s, %s, %s, %s, %s);
         """, (id, response.status_code, soup.h1.get_text(),
               soup.title.get_text(), content, date.today()))
