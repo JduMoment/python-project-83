@@ -73,7 +73,8 @@ def show_url(id):
         cursor.execute("""
         SELECT id, status_code, h1, title, description, created_at
         FROM url_checks
-        WHERE url_id=%s; """, (id,))
+        WHERE url_id=%s
+        ORDER BY created_at DESC; """, (id,))
         url_check = cursor.fetchall()
         return render_template(
             'urls/show_url.html',
@@ -106,5 +107,5 @@ def check_url(id):
     return redirect(url_for('show_url', id=id), code=200)
 
 
-if __name__ == '__main__':
-    app.run(port=8080, debug=True)
+# if __name__ == '__main__':
+#     app.run(port=8080, debug=True)
