@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "page_analyzer"
+name = "hexlet-code"
 version = "0.1.0"
 description = "Page Analyzer"
 authors = ["Vanya <curagin.vanya@yandex.ru>"]
