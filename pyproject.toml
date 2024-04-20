@@ -5,7 +5,6 @@ description = "Page Analyzer"
 authors = ["Vanya <curagin.vanya@yandex.ru>"]
 readme = "README.md"
 classifiers = [
-	"Topic :: File Formats",
 	"Programming Language :: Python :: 3.10",
 	"Topic :: Utilities"
 ]

@@ -38,10 +38,10 @@ def add_url():
                     """, (url, date.today()))
                 conn.commit()
                 flash('Страница успешно добавлена', 'success')
-                return redirect(url_for('show_all_urls'), code=200)
+                return redirect(url_for('show_all_urls'), code=302)
             else:
                 flash('Страница уже добавлена', 'warning')
-                return redirect(url_for('show_all_urls'), code=200)
+                return redirect(url_for('show_all_urls'), code=302)
     flash('Некорректный URL', 'error')
     return redirect(url_for('index'))
 
