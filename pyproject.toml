@@ -10,6 +10,9 @@ classifiers = [
 	"Topic :: Utilities"
 ]
 repository = "https://github.com/JduMoment/python-project-83"
+packages = [
+	{include = "page_analyzer"},
+]
 
 [tool.poetry.scripts]
 page_analyzer = "page_analyzer.app:main"
