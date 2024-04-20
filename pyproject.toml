@@ -3,6 +3,16 @@ name = "hexlet-code"
 version = "0.1.0"
 description = "Page Analyzer"
 authors = ["Vanya <curagin.vanya@yandex.ru>"]
+readme = "README.md"
+classifiers = [
+	"Topic :: File Formats",
+	"Programming Language :: Python :: 3.10",
+	"Topic :: Utilities"
+]
+repository = "https://github.com/JduMoment/python-project-83"
+
+[tool.poetry.scripts]
+page_analyzer = "page_analyzer.app:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
