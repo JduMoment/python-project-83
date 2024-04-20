@@ -104,7 +104,7 @@ def check_url(id):
         """, (id, response.status_code, soup.h1.get_text(),
               soup.title.get_text(), content, date.today()))
         conn.commit()
-    return redirect(url_for('show_url', id=id), code=200)
+    return redirect(url_for('show_url', id=id), code=302)
 
 
 # if __name__ == '__main__':
