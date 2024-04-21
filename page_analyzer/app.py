@@ -28,20 +28,25 @@ def add_url():
         spread_url = urlparse(url)
         prepared_url = '://'.join([spread_url.scheme, spread_url.netloc])
         with conn.cursor() as cursor:
-            cursor.execute("""SELECT name FROM urls
+            cursor.execute("""SELECT id, name FROM urls
             WHERE name = %s;""", (prepared_url,))
-            added_earlier = cursor.fetchall()
-            if not added_earlier and len(prepared_url) < 255:
+            added = cursor.fetchall()
+            if not added and len(prepared_url) < 255:
                 cursor.execute("""
                     INSERT INTO urls (name, created_at)
                     VALUES (%s, %s);
                     """, (prepared_url, date.today()))
                 conn.commit()
+                cursor.execute("""SELECT id FROM urls
+                    WHERE name = %s;""", (prepared_url,))
+                added = cursor.fetchall()
+                user_id, = added[0]
                 flash('Страница успешно добавлена', 'success')
-                return redirect(url_for('show_all_urls'), code=302)
+                return redirect(url_for('show_url', id=user_id), code=302)
             else:
+                user_id, _ = added[0]
                 flash('Страница уже добавлена', 'warning')
-                return redirect(url_for('show_all_urls'), code=302)
+                return redirect(url_for('show_url', id=user_id), code=302)
     flash('Некорректный URL', 'error')
     return redirect(url_for('index'))
 
