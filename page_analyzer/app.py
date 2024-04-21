@@ -48,7 +48,7 @@ def add_url():
                 flash('Страница уже существует', 'warning')
                 return redirect(url_for('show_url', id=user_id), code=302)
     flash('Некорректный URL', 'error')
-    return redirect(url_for('index'))
+    return redirect(url_for('index'), code=422)
 
 
 @app.get('/urls')
