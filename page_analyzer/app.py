@@ -45,7 +45,7 @@ def add_url():
                 return redirect(url_for('show_url', id=user_id), code=302)
             else:
                 user_id, _ = added[0]
-                flash('Страница уже добавлена', 'warning')
+                flash('Страница уже существует', 'warning')
                 return redirect(url_for('show_url', id=user_id), code=302)
     flash('Некорректный URL', 'error')
     return redirect(url_for('index'))
@@ -57,7 +57,8 @@ def show_all_urls():
     with conn.cursor() as cursor:
         cursor.execute("""
         SELECT DISTINCT urls.id, urls.name as ulr,
-        url_checks.created_at as last_check
+        url_checks.created_at as last_check,
+        url_checks.status_code
         FROM urls
         LEFT JOIN url_checks ON urls.id = url_checks.url_id
         ORDER BY url_checks.created_at DESC""")
