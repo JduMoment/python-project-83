@@ -35,7 +35,7 @@ def add_url():
                 cursor.execute("""
                     INSERT INTO urls (name, created_at)
                     VALUES (%s, %s);
-                    """, (url, date.today()))
+                    """, (prepared_url, date.today()))
                 conn.commit()
                 flash('Страница успешно добавлена', 'success')
                 return redirect(url_for('show_all_urls'), code=302)
@@ -107,5 +107,5 @@ def check_url(id):
     return redirect(url_for('show_url', id=id), code=302)
 
 
-# if __name__ == '__main__':
-#     app.run(port=8080, debug=True)
+if __name__ == '__main__':
+    app.run(port=8080, debug=True)
