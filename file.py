@@ -1,6 +1,9 @@
-from urllib.parse import urlparse
+import requests
 
-urls = 'https://www.yandex'
-url = urlparse(urls)
-print(url)
-print('://'.join([url.scheme, url.netloc]))
+
+def zapros(url):
+    response = requests.get(url)
+    return response
+
+
+print(zapros('https://stub.com'))

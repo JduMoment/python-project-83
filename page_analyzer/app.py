@@ -99,7 +99,11 @@ def check_url(id):
         WHERE id=%s;""", (id,))
         url = cursor.fetchone()[0]
         response = requests.get(url)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.HTTPError:
+            flash('Произошла ошибка при проверке', 'error')
+            return redirect(url_for('show_url', id=id), code=302)
         soup = BeautifulSoup(response.text)
         content = str(soup.find('meta', {'name': 'description'})['content'])
         cursor.execute("""
@@ -109,8 +113,9 @@ def check_url(id):
         """, (id, response.status_code, soup.h1.get_text(),
               soup.title.get_text(), content, date.today()))
         conn.commit()
+    flash('Страница успешно проверена', 'success')
     return redirect(url_for('show_url', id=id), code=302)
 
 
-if __name__ == '__main__':
-    app.run(port=8080, debug=True)
+# if __name__ == '__main__':
+#     app.run(port=8080, debug=True)
