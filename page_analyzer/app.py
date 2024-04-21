@@ -104,7 +104,7 @@ def check_url(id):
         except requests.HTTPError:
             flash('Произошла ошибка при проверке', 'error')
             return redirect(url_for('show_url', id=id), code=302)
-        soup = BeautifulSoup(response.text)
+        soup = BeautifulSoup(response.text, features="html.parser")
         content = str(soup.find('meta', {'name': 'description'})['content'])
         cursor.execute("""
         INSERT INTO url_checks
