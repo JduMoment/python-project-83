@@ -116,4 +116,3 @@ def check_url(id):
         conn.commit()
     flash('Страница успешно проверена', 'success')
     return redirect(url_for('show_url', id=id), code=302)
-
