@@ -1,11 +1,5 @@
 install: #install poetry
 	poetry install
-publish: #publish pack in PyPI, dont add in catalog
-	poetry publish --dry-run
-package-install: #Install pack from OS
-	python3 -m pip install --user dist/*.whl
-package-reinstall: #reinstall pack
-	python3 -m pip install --user dist/*.whl --force-reinstall
 lint: #lint check
 	poetry run flake8 page_analyzer
 dev: #project start
