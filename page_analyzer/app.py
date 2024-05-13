@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash
 from dotenv import load_dotenv
-from validators import url as is_correct
+from validate import is_correct
 from urllib.parse import urlparse
 from datetime import date
 from bs4 import BeautifulSoup
