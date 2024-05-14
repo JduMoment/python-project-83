@@ -17,7 +17,7 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-conn_pull = psycopg2.pool.SimpleConnectionPool(1, 10, DATABASE_URL)
+conn_pull = psycopg2.pool.SimpleConnectionPool(1, 20, DATABASE_URL)
 conn = conn_pull.getconn()
 
 
