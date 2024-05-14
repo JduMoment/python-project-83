@@ -62,11 +62,10 @@ def add_url():
             added = cursor.fetchall()
             user_id, = added[0]
             flash('Страница успешно добавлена', 'success')
-            return redirect(url_for('show_url', id=user_id), code=302)
         else:
             user_id, _ = added[0]
             flash('Страница уже существует', 'warning')
-            return redirect(url_for('show_url', id=user_id), code=302)
+    return redirect(url_for('show_url', id=user_id), code=302)
 
 
 @app.get('/urls')
