@@ -1,13 +1,15 @@
+import os
+from datetime import date
+
 from flask import Flask, render_template, request, url_for, redirect, flash
 from dotenv import load_dotenv
-from validate import is_correct
 from urllib.parse import urlparse
-from datetime import date
 from bs4 import BeautifulSoup
-import os
-import psycopg2
 from psycopg2 import pool   # noqa
+import psycopg2
 import requests
+
+from .validate import email_is_correct
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -27,7 +29,7 @@ def index():
 @app.post('/urls')
 def add_url():
     url = request.form.get('url')
-    if not is_correct(url):
+    if not email_is_correct(url):
         flash('Некорректный URL', 'error')
         return render_template('index.html'), 422
     spread_url = urlparse(url)
@@ -41,7 +43,7 @@ def add_url():
             (prepared_url,)
         )
         added = cursor.fetchall()
-        if not added and len(prepared_url) < 255:
+        if not added:
             cursor.execute(
                 """
                 INSERT INTO urls (name, created_at)
@@ -150,3 +152,7 @@ def check_url(id):
         conn.commit()
     flash('Страница успешно проверена', 'success')
     return redirect(url_for('show_url', id=id), code=302)
+
+
+if __name__ == '__main__':
+    app.run(port=8080, debug=True)
