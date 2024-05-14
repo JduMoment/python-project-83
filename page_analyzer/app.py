@@ -9,7 +9,7 @@ from psycopg2 import pool   # noqa
 import psycopg2
 import requests
 
-from .validate import email_is_correct
+from page_analyzer.validate import email_is_correct
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
