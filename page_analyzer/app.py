@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 from psycopg2 import pool   # noqa
 import psycopg2
 import requests
-
-from page_analyzer.validate import email_is_correct
+from validators import url as url_is_correct
+# from page_analyzer.validate import email_is_correct
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -29,7 +29,7 @@ def index():
 @app.post('/urls')
 def add_url():
     url = request.form.get('url')
-    if not email_is_correct(url):
+    if not url_is_correct(url):
         flash('Некорректный URL', 'error')
         return render_template('index.html'), 422
     spread_url = urlparse(url)
