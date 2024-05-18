@@ -18,7 +18,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 conn_pull = psycopg2.pool.SimpleConnectionPool(1, 20, DATABASE_URL)
-conn = conn_pull.getconn()
 
 
 @app.get('/')
@@ -34,6 +33,7 @@ def add_url():
         return render_template('index.html'), 422
     spread_url = urlparse(url)
     prepared_url = '://'.join([spread_url.scheme, spread_url.netloc])
+    conn = conn_pull.getconn()
     with conn.cursor() as cursor:
         cursor.execute(
             """
@@ -65,11 +65,13 @@ def add_url():
         else:
             user_id, _ = added[0]
             flash('Страница уже существует', 'warning')
+    conn_pull.putconn(conn)
     return redirect(url_for('show_url', id=user_id), code=302)
 
 
 @app.get('/urls')
 def show_all_urls():
+    conn = conn_pull.getconn()
     with conn.cursor() as cursor:
         cursor.execute(
             """
@@ -83,12 +85,14 @@ def show_all_urls():
             ORDER BY url_checks.created_at DESC;
             """)
         all_urls = cursor.fetchall()
-        return render_template('urls/urls.html',
-                               urls=all_urls)
+    conn_pull.putconn(conn)
+    return render_template('urls/urls.html',
+                           urls=all_urls)
 
 
 @app.get('/urls/<id>')
 def show_url(id):
+    conn = conn_pull.getconn()
     with conn.cursor() as cursor:
         cursor.execute(
             """
@@ -109,17 +113,19 @@ def show_url(id):
             (id,)
         )
         url_check = cursor.fetchall()
-        return render_template(
-            'urls/show_url.html',
-            id_url=id,
-            name_url=name_url,
-            created_at_url=created_at_url,
-            url_check=url_check,
-        )
+    conn_pull.putconn(conn)
+    return render_template(
+        'urls/show_url.html',
+        id_url=id,
+        name_url=name_url,
+        created_at_url=created_at_url,
+        url_check=url_check,
+    )
 
 
 @app.post('/urls/<id>/checks')
 def check_url(id):
+    conn = conn_pull.getconn()
     with conn.cursor() as cursor:
         cursor.execute(
             """
@@ -150,8 +156,5 @@ def check_url(id):
         )
         conn.commit()
     flash('Страница успешно проверена', 'success')
+    conn_pull.putconn(conn)
     return redirect(url_for('show_url', id=id), code=302)
-
-
-if __name__ == '__main__':
-    app.run(port=8080, debug=True)
