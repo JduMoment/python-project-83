@@ -158,3 +158,6 @@ def check_url(id):
     flash('Страница успешно проверена', 'success')
     conn_pull.putconn(conn)
     return redirect(url_for('show_url', id=id), code=302)
+
+if __name__ == '__main__':
+    app.run(port=8080, debug=True)
