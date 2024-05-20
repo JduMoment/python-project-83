@@ -140,6 +140,7 @@ def check_url(id):
             response.raise_for_status()
         except requests.HTTPError:
             flash('Произошла ошибка при проверке', 'error')
+            conn_pull.putconn(conn)
             return redirect(url_for('show_url', id=id), code=302)
         soup = BeautifulSoup(response.text, features="html.parser")
         content = str(soup.find('meta', {'name': 'description'})['content'])
@@ -158,6 +159,3 @@ def check_url(id):
     flash('Страница успешно проверена', 'success')
     conn_pull.putconn(conn)
     return redirect(url_for('show_url', id=id), code=302)
-
-if __name__ == '__main__':
-    app.run(port=8080, debug=True)
