@@ -101,12 +101,8 @@ def check_url(id):
                 return redirect(url_for('show_url', id=id), code=302)
             soup = BeautifulSoup(response.text, features="html.parser")
             content = str(soup.find('meta', {'name': 'description'})['content'])
-            cursor.execute(insert_url_check(id, response.status_code, soup.title.string,
+            cursor.execute(insert_url_check(id, response.status_code, soup.h1.string,
                                             soup.title.string, content, date.today()))
             conn.commit()
     flash('Страница успешно проверена', 'success')
     return redirect(url_for('show_url', id=id), code=302)
-
-
-if __name__ == '__main__':
-    app.run(debug=True, port=8080, host='0.0.0.0')
