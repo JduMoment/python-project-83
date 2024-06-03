@@ -2,10 +2,8 @@ import os
 from datetime import date
 
 from flask import Flask, render_template, request, url_for, redirect, flash
-from dotenv import load_dotenv
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-from psycopg2 import pool   # noqa
 import psycopg2
 import requests
 
@@ -19,14 +17,10 @@ from page_analyzer.sql_queries import (
     get_url_name,
 )
 from page_analyzer.validate import url_is_correct
-
-load_dotenv()
-DATABASE_URL = os.getenv('DATABASE_URL')
+from page_analyzer.database import conn_pull
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
-conn_pull = psycopg2.pool.SimpleConnectionPool(1, 20, DATABASE_URL)
 
 
 @app.get('/')
