@@ -4,7 +4,6 @@ from datetime import date
 from flask import Flask, render_template, request, url_for, redirect, flash
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-import psycopg2
 import requests
 
 from page_analyzer.sql_queries import (
